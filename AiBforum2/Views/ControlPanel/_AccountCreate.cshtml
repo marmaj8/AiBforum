@@ -1,0 +1,28 @@
+﻿@model AiBforum2.Models.Account
+
+@using (Html.BeginForm("AccountCreate", "ControlPanel"))
+{
+    @Html.AntiForgeryToken()
+
+    <td>
+        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.mail, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.mail, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.PasswordFor(model => model.pass, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.pass, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.DropDownListFor(model => model.groupFK, new SelectList(ViewBag.groups, "idGroup", "name"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.groupFK, "", new { @class = "text-danger" })
+    </td>
+    <td />
+
+    <td>
+        <input type="submit" value="Create" class="btn btn-default" />
+    </td>
+}

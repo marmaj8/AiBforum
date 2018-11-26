@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AiBforumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="idAccount" />
+    </Key>
+    <Property Name="idAccount" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="mail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pass" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="groupFK" Type="Int32" Nullable="false" />
+    <Property Name="creationDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Group" Relationship="Self.FK__Account__groupFK__1DE57479" FromRole="Account" ToRole="Group" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__Post__author__1ED998B2" FromRole="Account" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="idGroup" />
+    </Key>
+    <Property Name="idGroup" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Account" Relationship="Self.FK__Account__groupFK__1DE57479" FromRole="Group" ToRole="Account" />
+    <NavigationProperty Name="Section" Relationship="Self.FK__Section__readGro__20C1E124" FromRole="Group" ToRole="Section" />
+    <NavigationProperty Name="Section1" Relationship="Self.FK__Section__writeGr__21B6055D" FromRole="Group" ToRole="Section" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="idPost" />
+    </Key>
+    <Property Name="idPost" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="author" Type="Int32" Nullable="false" />
+    <Property Name="topic" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Precision="0" />
+    <Property Name="text" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Account" Relationship="Self.FK__Post__author__1ED998B2" FromRole="Post" ToRole="Account" />
+    <NavigationProperty Name="Topic1" Relationship="Self.FK__Post__topic__1FCDBCEB" FromRole="Post" ToRole="Topic" />
+  </EntityType>
+  <EntityType Name="Section">
+    <Key>
+      <PropertyRef Name="idSection" />
+    </Key>
+    <Property Name="idSection" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="readGroupFk" Type="Int32" Nullable="false" />
+    <Property Name="writeGroupFk" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Group" Relationship="Self.FK__Section__readGro__20C1E124" FromRole="Section" ToRole="Group" />
+    <NavigationProperty Name="Group1" Relationship="Self.FK__Section__writeGr__21B6055D" FromRole="Section" ToRole="Group" />
+    <NavigationProperty Name="Topic" Relationship="Self.FK__Topic__sectionFK__22AA2996" FromRole="Section" ToRole="Topic" />
+  </EntityType>
+  <EntityType Name="Topic">
+    <Key>
+      <PropertyRef Name="idTopic" />
+    </Key>
+    <Property Name="idTopic" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="sectionFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__Post__topic__1FCDBCEB" FromRole="Topic" ToRole="Post" />
+    <NavigationProperty Name="Section" Relationship="Self.FK__Topic__sectionFK__22AA2996" FromRole="Topic" ToRole="Section" />
+  </EntityType>
+  <Association Name="FK__Account__groupFK__1DE57479">
+    <End Role="Group" Type="Self.Group" Multiplicity="1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="idGroup" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="groupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Post__author__1ED998B2">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="idAccount" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="author" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Section__readGro__20C1E124">
+    <End Role="Group" Type="Self.Group" Multiplicity="1" />
+    <End Role="Section" Type="Self.Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="idGroup" />
+      </Principal>
+      <Dependent Role="Section">
+        <PropertyRef Name="readGroupFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Section__writeGr__21B6055D">
+    <End Role="Group" Type="Self.Group" Multiplicity="1" />
+    <End Role="Section" Type="Self.Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="idGroup" />
+      </Principal>
+      <Dependent Role="Section">
+        <PropertyRef Name="writeGroupFk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Post__topic__1FCDBCEB">
+    <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Topic">
+        <PropertyRef Name="idTopic" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="topic" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Topic__sectionFK__22AA2996">
+    <End Role="Section" Type="Self.Section" Multiplicity="1" />
+    <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Section">
+        <PropertyRef Name="idSection" />
+      </Principal>
+      <Dependent Role="Topic">
+        <PropertyRef Name="sectionFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AiBforumEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Account" EntityType="Self.Account" />
+    <EntitySet Name="Group" EntityType="Self.Group" />
+    <EntitySet Name="Post" EntityType="Self.Post" />
+    <EntitySet Name="Section" EntityType="Self.Section" />
+    <EntitySet Name="Topic" EntityType="Self.Topic" />
+    <AssociationSet Name="FK__Account__groupFK__1DE57479" Association="Self.FK__Account__groupFK__1DE57479">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="Account" EntitySet="Account" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Post__author__1ED998B2" Association="Self.FK__Post__author__1ED998B2">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Section__readGro__20C1E124" Association="Self.FK__Section__readGro__20C1E124">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="Section" EntitySet="Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Section__writeGr__21B6055D" Association="Self.FK__Section__writeGr__21B6055D">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="Section" EntitySet="Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Post__topic__1FCDBCEB" Association="Self.FK__Post__topic__1FCDBCEB">
+      <End Role="Topic" EntitySet="Topic" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Topic__sectionFK__22AA2996" Association="Self.FK__Topic__sectionFK__22AA2996">
+      <End Role="Section" EntitySet="Section" />
+      <End Role="Topic" EntitySet="Topic" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

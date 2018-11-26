@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AiBforumModelStoreContainer" CdmEntityContainer="AiBforumEntities">
+    <EntitySetMapping Name="Account">
+      <EntityTypeMapping TypeName="AiBforumModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="idAccount" ColumnName="idAccount" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="mail" ColumnName="mail" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+          <ScalarProperty Name="groupFK" ColumnName="groupFK" />
+          <ScalarProperty Name="creationDate" ColumnName="creationDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Group">
+      <EntityTypeMapping TypeName="AiBforumModel.Group">
+        <MappingFragment StoreEntitySet="Group">
+          <ScalarProperty Name="idGroup" ColumnName="idGroup" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Post">
+      <EntityTypeMapping TypeName="AiBforumModel.Post">
+        <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="idPost" ColumnName="idPost" />
+          <ScalarProperty Name="author" ColumnName="author" />
+          <ScalarProperty Name="topic" ColumnName="topic" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="text" ColumnName="text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Section">
+      <EntityTypeMapping TypeName="AiBforumModel.Section">
+        <MappingFragment StoreEntitySet="Section">
+          <ScalarProperty Name="idSection" ColumnName="idSection" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="readGroupFk" ColumnName="readGroupFk" />
+          <ScalarProperty Name="writeGroupFk" ColumnName="writeGroupFk" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Topic">
+      <EntityTypeMapping TypeName="AiBforumModel.Topic">
+        <MappingFragment StoreEntitySet="Topic">
+          <ScalarProperty Name="idTopic" ColumnName="idTopic" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sectionFK" ColumnName="sectionFK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

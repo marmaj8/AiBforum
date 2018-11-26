@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="524b49db6dfb4c059165f7967a41e1fa" Name="Diagram1">
+        <EntityTypeShape EntityType="AiBforumModel.Account" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBforumModel.Group" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBforumModel.Post" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBforumModel.Section" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBforumModel.Topic" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="AiBforumModel.FK__Account__groupFK__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBforumModel.FK__Post__author__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBforumModel.FK__Section__readGro__20C1E124" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBforumModel.FK__Section__writeGr__21B6055D" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBforumModel.FK__Post__topic__1FCDBCEB" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBforumModel.FK__Topic__sectionFK__22AA2996" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
