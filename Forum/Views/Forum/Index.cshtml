@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Forum.Models.Section>
+
+    <div id="sections">
+        <table class="table">
+            @foreach (var section in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(section.name, "Section", new { idSection = section.idSection })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>

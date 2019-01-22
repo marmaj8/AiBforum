@@ -1,0 +1,46 @@
+﻿@model Forum.Models.Section
+
+@using (Html.BeginForm("SectionEdit", "ControlPanel"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.idSection)
+
+    <td>
+        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.DropDownListFor(model => model.readGroupFk, new SelectList(ViewBag.groups, "idGroup", "name", Model.readGroupFk), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.readGroupFk, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.DropDownListFor(model => model.writeGroupFk, new SelectList(ViewBag.groups, "idGroup", "name", Model.writeGroupFk), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.writeGroupFk, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        <input type="submit" value="Save" class="btn btn-default" />
+    </td>
+}
+
+@if (Model.idSection != 1)
+{
+    using (Html.BeginForm("SectionDelete", "ControlPanel"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.idSection)
+
+        <td>
+            <input type="submit" value="Delete" class="btn btn-default" />
+        </td>
+    }
+}
+
+@if (ViewBag.ObjectId == Model.idSection && ViewBag.OperationName == "Section Edit")
+{
+    <td class="RowMessage">@ViewBag.OperationMessage</td>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
