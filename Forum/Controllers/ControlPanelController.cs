@@ -8,10 +8,11 @@ using System.Web.Mvc;
 
 namespace Forum.Controllers
 {
+    [Authorize]
     public class ControlPanelController : Controller
     {
         int PERPAGE = 5;
-        Models.AiBforumEntities db = new Models.AiBforumEntities();
+        Models.AiBEntities db = new Models.AiBEntities();
 
         public ActionResult test()
         {
@@ -21,38 +22,51 @@ namespace Forum.Controllers
         // GET: ControlPanel
         public ActionResult Index()
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             return View();
         }
 
         [HttpGet]
-        public ActionResult _AccountEditor(Models.Account account)
+        public ActionResult _AccountEditor(Models.AspNetUsers account)
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             return PartialView("_AccountEditor", account);
         }
 
         [HttpPost]
-        public ActionResult AccountEdit(Models.Account account)
+        public ActionResult AccountEdit(Models.AspNetUsers account)
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             TempData["OperationTarget"] = "Account";
             try
             {
-                Models.Account aaccount = db.Account.Where(a => a.idAccount == account.idAccount).First();
+                Models.AspNetUsers aaccount = db.AspNetUsers.Where(a => a.Id == account.Id).First();
 
-                if (account.groupFK == db.Group.Where(g => g.name == "Deleted").First().idGroup)
+                if (account.Group == db.Group.Where(g => g.name == "Deleted").First().idGroup)
                 {
-                    aaccount.name = "Deleted" + account.idAccount;
-                    aaccount.mail = account.idAccount.ToString();
-                    aaccount.pass = "";
-                    aaccount.groupFK = account.groupFK;
+                    aaccount.UserName = "Deleted" + db.AspNetUsers.Where(a => a.Group == aaccount.Group).Count().ToString();
+                    aaccount.Email = aaccount.UserName;
+                    aaccount.PasswordHash = "";
+                    aaccount.Group = account.Group;
                     TempData["OperationResult"] = "Deleted";
                 }
                 else
                 {
-                    aaccount.name = account.name;
-                    aaccount.mail = account.mail;
-                    if (account.pass != null)
-                        aaccount.pass = account.pass;
-                    aaccount.groupFK = account.groupFK;
+                    aaccount.UserName = account.UserName;
+                    aaccount.Email = account.Email;
+                    aaccount.Group = account.Group;
                     TempData["OperationResult"] = "Edited";
                 }
 
@@ -68,6 +82,11 @@ namespace Forum.Controllers
 
         public ActionResult _AccountCreate()
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             IEnumerable<Models.Group> groups = db.Group;
             ViewBag.groups = groups;
 
@@ -75,13 +94,18 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
-        public ActionResult AccountCreate(Models.Account account)
+        public ActionResult AccountCreate(Models.AspNetUsers account)
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             TempData["OperationTarget"] = "Account";
             try
             {
                 account.creationDate = DateTime.Now;
-                db.Account.Add(account);
+                db.AspNetUsers.Add(account);
                 db.SaveChanges();
 
                 TempData["OperationResult"] = "Created";
@@ -114,34 +138,34 @@ namespace Forum.Controllers
             IEnumerable<Models.Group> groups = db.Group;
             ViewBag.groups = groups;
 
-            int deleted = groups.Where(g => g.name == "Deleted").First().idGroup;
+            int deleted = groups.OrderBy(g => g.Power).First().idGroup;
 
-            //IEnumerable<Models.Account> accounts = db.Account.Where(a => a.groupFK != deleted);
+            //IEnumerable<Models.AspNetUsers> accounts = db.AspNetUsers.Where(a => a.groupFK != deleted);
 
-            var accounts = from a in db.Account.Where(a => a.groupFK != deleted) select a;
+            var accounts = from a in db.AspNetUsers.Where(a => a.Group != deleted) select a;
 
             switch (sort)
             {
                 case 1:
-                    accounts = accounts.OrderBy(a => a.name);
+                    accounts = accounts.OrderBy(a => a.UserName);
                     break;
                 case 2:
-                    accounts = accounts.OrderBy(a => a.mail);
+                    accounts = accounts.OrderBy(a => a.Email);
                     break;
                 case 3:
-                    accounts = accounts.OrderBy(a => a.groupFK);
+                    accounts = accounts.OrderBy(a => a.Group);
                     break;
                 case 4:
                     accounts = accounts.OrderBy(a => a.creationDate);
                     break;
                 case -1:
-                    accounts = accounts.OrderByDescending(a => a.name);
+                    accounts = accounts.OrderByDescending(a => a.UserName);
                     break;
                 case -2:
-                    accounts = accounts.OrderByDescending(a => a.mail);
+                    accounts = accounts.OrderByDescending(a => a.Email);
                     break;
                 case -3:
-                    accounts = accounts.OrderByDescending(a => a.groupFK);
+                    accounts = accounts.OrderByDescending(a => a.Group);
                     break;
                 case -4:
                     accounts = accounts.OrderByDescending(a => a.creationDate);
@@ -158,12 +182,22 @@ namespace Forum.Controllers
         [HttpGet]
         public ActionResult _SectionEditor(Models.Section section)
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             return PartialView("_SectionEditor", section);
         }
 
         [HttpPost]
         public ActionResult SectionEdit(Models.Section section)
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             TempData["OperationTarget"] = "Section";
             try
             {
@@ -187,6 +221,11 @@ namespace Forum.Controllers
 
         public ActionResult _SectionCreate()
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             IEnumerable<Models.Group> groups = db.Group;
             ViewBag.groups = groups;
 
@@ -196,6 +235,11 @@ namespace Forum.Controllers
         [HttpPost]
         public ActionResult SectionCreate(Models.Section section)
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             TempData["OperationTarget"] = "Section";
             try
             {
@@ -213,6 +257,11 @@ namespace Forum.Controllers
 
         public ActionResult _SectionList()
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             int page = GetParam("sep");
             int sort = GetParam("ses");
 
@@ -251,6 +300,11 @@ namespace Forum.Controllers
 
         public ActionResult SectionDelete(Models.Section section)
         {
+            if (!CheckPermision())
+            {
+                return HttpNotFound();
+            }
+
             TempData["OperationTarget"] = "Section";
             try
             {
@@ -272,6 +326,20 @@ namespace Forum.Controllers
             return View("Index");
         }
 
+        private Boolean CheckPermision()
+        {
+            try
+            {
+                if (db.AspNetUsers.Where(a => a.UserName == User.Identity.Name.ToString()).First().Group1.Power >= 90)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
 
     }

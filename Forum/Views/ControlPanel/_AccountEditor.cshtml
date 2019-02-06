@@ -1,23 +1,23 @@
-﻿@model Forum.Models.Account
+﻿@model Forum.Models.AspNetUsers
 
 
 @using (Html.BeginForm("AccountEdit", "ControlPanel"))
 {
     @Html.AntiForgeryToken()
 
-    @Html.HiddenFor(model => model.idAccount)
+    @Html.HiddenFor(model => model.Id)
 
     <td>
-        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
     </td>
     <td>
-        @Html.EditorFor(model => model.mail, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.mail, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
     </td>
     <td>
-        @Html.DropDownListFor(model => model.groupFK, new SelectList(ViewBag.groups, "idGroup", "name", Model.groupFK), "", new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.groupFK, "", new { @class = "text-danger" })
+        @Html.DropDownListFor(model => model.Group, new SelectList(ViewBag.groups, "idGroup", "name", Model.Group), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Group, "", new { @class = "text-danger" })
     </td>
 
     <td>
@@ -29,7 +29,7 @@
     </td>
 }
 
-@if (ViewBag.ObjectId == Model.idAccount && ViewBag.OperationName == "Account Edit")
+@if (ViewBag.ObjectId == Model.Id && ViewBag.OperationName == "Account Edit")
 {
     <td class="RowMessage">@ViewBag.OperationMessage</td>
 }

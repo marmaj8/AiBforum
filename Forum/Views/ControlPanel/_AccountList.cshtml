@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<Forum.Models.Account>
+﻿@model PagedList.IPagedList<Forum.Models.AspNetUsers>
 @using PagedList.Mvc;
 
 <h1>Accounts</h1>
@@ -15,24 +15,21 @@
     </tr>
     <tr>
         <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.First().name).ToHtmlString(), "Index", new { acp = Request.QueryString.Get("acp"), acs = 1, sep = Request.QueryString.Get("sep"), ses = Request.QueryString.Get("ses") })
+            @Html.ActionLink(Html.DisplayNameFor(model => model.First().UserName).ToHtmlString(), "Index", new { acp = Request.QueryString.Get("acp"), acs = 1, sep = Request.QueryString.Get("sep"), ses = Request.QueryString.Get("ses") })
+
         </th>
         <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.First().mail).ToHtmlString(), "Index", new { acp = Request.QueryString.Get("acp"), acs = 2, sep = Request.QueryString.Get("sep"), ses = Request.QueryString.Get("ses") })
+            @Html.ActionLink(Html.DisplayNameFor(model => model.First().Email).ToHtmlString(), "Index", new { acp = Request.QueryString.Get("acp"), acs = 2, sep = Request.QueryString.Get("sep"), ses = Request.QueryString.Get("ses") })
         </th>
         <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.First().groupFK).ToHtmlString(), "Index", new { acp = Request.QueryString.Get("acp"), acs = 3, sep = Request.QueryString.Get("sep"), ses = Request.QueryString.Get("ses") })
+            @Html.ActionLink(Html.DisplayNameFor(model => model.First().Group).ToHtmlString(), "Index", new { acp = Request.QueryString.Get("acp"), acs = 3, sep = Request.QueryString.Get("sep"), ses = Request.QueryString.Get("ses") })
         </th>
         <th>
             @Html.ActionLink(Html.DisplayNameFor(model => model.First().creationDate).ToHtmlString(), "Index", new { acp = Request.QueryString.Get("acp"), acs = 4, sep = Request.QueryString.Get("sep"), ses = Request.QueryString.Get("ses") })
         </th>
         <th></th>
     </tr>
-    @*
-        <tr>
-            @Html.Action("_AccountCreate")
-        </tr>
-    *@
+
     @foreach (var account in Model)
     {
         <tr>

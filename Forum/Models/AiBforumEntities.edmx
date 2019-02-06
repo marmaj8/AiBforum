@@ -4,17 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AiBforumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Account">
+    <Schema Namespace="AiBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
           <Key>
-            <PropertyRef Name="idAccount" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="idAccount" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="mail" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="pass" Type="varchar" MaxLength="100" />
-          <Property Name="groupFK" Type="int" Nullable="false" />
-          <Property Name="creationDate" Type="date" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Group" Type="int" />
+          <Property Name="creationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -22,16 +30,17 @@
           </Key>
           <Property Name="idGroup" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Power" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
             <PropertyRef Name="idPost" />
           </Key>
           <Property Name="idPost" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="author" Type="int" Nullable="false" />
+          <Property Name="author" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="topic" Type="int" Nullable="false" />
-          <Property Name="date" Type="date" />
           <Property Name="text" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="date" Type="datetime" />
         </EntityType>
         <EntityType Name="Section">
           <Key>
@@ -50,31 +59,31 @@
           <Property Name="name" Type="varchar" MaxLength="100" />
           <Property Name="sectionFK" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Account__groupFK__1DE57479">
-          <End Role="Group" Type="Self.Group" Multiplicity="1" />
-          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+        <Association Name="FK__AspNetUse__Group__30F848ED">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Group">
               <PropertyRef Name="idGroup" />
             </Principal>
-            <Dependent Role="Account">
-              <PropertyRef Name="groupFK" />
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="Group" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__author__1ED998B2">
-          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+        <Association Name="FK__Post__author__2F10007B">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="idAccount" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Post">
               <PropertyRef Name="author" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__topic__1FCDBCEB">
+        <Association Name="FK__Post__topic__300424B4">
           <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -86,7 +95,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Section__readGro__20C1E124">
+        <Association Name="FK__Section__readGro__276EDEB3">
           <End Role="Group" Type="Self.Group" Multiplicity="1" />
           <End Role="Section" Type="Self.Section" Multiplicity="*" />
           <ReferentialConstraint>
@@ -98,7 +107,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Section__writeGr__21B6055D">
+        <Association Name="FK__Section__writeGr__286302EC">
           <End Role="Group" Type="Self.Group" Multiplicity="1" />
           <End Role="Section" Type="Self.Section" Multiplicity="*" />
           <ReferentialConstraint>
@@ -110,7 +119,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Topic__sectionFK__22AA2996">
+        <Association Name="FK__Topic__sectionFK__2B3F6F97">
           <End Role="Section" Type="Self.Section" Multiplicity="1" />
           <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
           <ReferentialConstraint>
@@ -122,54 +131,61 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AiBforumModelStoreContainer">
-          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="AiBModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Account__groupFK__1DE57479" Association="Self.FK__Account__groupFK__1DE57479">
+          <AssociationSet Name="FK__AspNetUse__Group__30F848ED" Association="Self.FK__AspNetUse__Group__30F848ED">
             <End Role="Group" EntitySet="Group" />
-            <End Role="Account" EntitySet="Account" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__author__1ED998B2" Association="Self.FK__Post__author__1ED998B2">
-            <End Role="Account" EntitySet="Account" />
+          <AssociationSet Name="FK__Post__author__2F10007B" Association="Self.FK__Post__author__2F10007B">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__topic__1FCDBCEB" Association="Self.FK__Post__topic__1FCDBCEB">
+          <AssociationSet Name="FK__Post__topic__300424B4" Association="Self.FK__Post__topic__300424B4">
             <End Role="Topic" EntitySet="Topic" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Section__readGro__20C1E124" Association="Self.FK__Section__readGro__20C1E124">
+          <AssociationSet Name="FK__Section__readGro__276EDEB3" Association="Self.FK__Section__readGro__276EDEB3">
             <End Role="Group" EntitySet="Group" />
             <End Role="Section" EntitySet="Section" />
           </AssociationSet>
-          <AssociationSet Name="FK__Section__writeGr__21B6055D" Association="Self.FK__Section__writeGr__21B6055D">
+          <AssociationSet Name="FK__Section__writeGr__286302EC" Association="Self.FK__Section__writeGr__286302EC">
             <End Role="Group" EntitySet="Group" />
             <End Role="Section" EntitySet="Section" />
           </AssociationSet>
-          <AssociationSet Name="FK__Topic__sectionFK__22AA2996" Association="Self.FK__Topic__sectionFK__22AA2996">
+          <AssociationSet Name="FK__Topic__sectionFK__2B3F6F97" Association="Self.FK__Topic__sectionFK__2B3F6F97">
             <End Role="Section" EntitySet="Section" />
             <End Role="Topic" EntitySet="Topic" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AiBforumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Account">
+      <Schema Namespace="AiBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUsers">
           <Key>
-            <PropertyRef Name="idAccount" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="idAccount" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="mail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="pass" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="groupFK" Type="Int32" Nullable="false" />
-          <Property Name="creationDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Group" Relationship="Self.FK__Account__groupFK__1DE57479" FromRole="Account" ToRole="Group" />
-          <NavigationProperty Name="Post" Relationship="Self.FK__Post__author__1ED998B2" FromRole="Account" ToRole="Post" />
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Group" Type="Int32" />
+          <NavigationProperty Name="Group1" Relationship="Self.FK__AspNetUse__Group__30F848ED" FromRole="AspNetUsers" ToRole="Group" />
+          <NavigationProperty Name="Post" Relationship="Self.FK__Post__author__2F10007B" FromRole="AspNetUsers" ToRole="Post" />
+          <Property Name="creationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -177,21 +193,22 @@
           </Key>
           <Property Name="idGroup" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Account" Relationship="Self.FK__Account__groupFK__1DE57479" FromRole="Group" ToRole="Account" />
-          <NavigationProperty Name="Section" Relationship="Self.FK__Section__readGro__20C1E124" FromRole="Group" ToRole="Section" />
-          <NavigationProperty Name="Section1" Relationship="Self.FK__Section__writeGr__21B6055D" FromRole="Group" ToRole="Section" />
+          <Property Name="Power" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK__AspNetUse__Group__30F848ED" FromRole="Group" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Section" Relationship="Self.FK__Section__readGro__276EDEB3" FromRole="Group" ToRole="Section" />
+          <NavigationProperty Name="Section1" Relationship="Self.FK__Section__writeGr__286302EC" FromRole="Group" ToRole="Section" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
             <PropertyRef Name="idPost" />
           </Key>
           <Property Name="idPost" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="author" Type="Int32" Nullable="false" />
+          <Property Name="author" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="topic" Type="Int32" Nullable="false" />
-          <Property Name="date" Type="DateTime" Precision="0" />
           <Property Name="text" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Account" Relationship="Self.FK__Post__author__1ED998B2" FromRole="Post" ToRole="Account" />
-          <NavigationProperty Name="Topic1" Relationship="Self.FK__Post__topic__1FCDBCEB" FromRole="Post" ToRole="Topic" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK__Post__author__2F10007B" FromRole="Post" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Topic1" Relationship="Self.FK__Post__topic__300424B4" FromRole="Post" ToRole="Topic" />
         </EntityType>
         <EntityType Name="Section">
           <Key>
@@ -201,9 +218,9 @@
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="readGroupFk" Type="Int32" Nullable="false" />
           <Property Name="writeGroupFk" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Group" Relationship="Self.FK__Section__readGro__20C1E124" FromRole="Section" ToRole="Group" />
-          <NavigationProperty Name="Group1" Relationship="Self.FK__Section__writeGr__21B6055D" FromRole="Section" ToRole="Group" />
-          <NavigationProperty Name="Topic" Relationship="Self.FK__Topic__sectionFK__22AA2996" FromRole="Section" ToRole="Topic" />
+          <NavigationProperty Name="GroupRead" Relationship="Self.FK__Section__readGro__276EDEB3" FromRole="Section" ToRole="Group" />
+          <NavigationProperty Name="GroupWrite" Relationship="Self.FK__Section__writeGr__286302EC" FromRole="Section" ToRole="Group" />
+          <NavigationProperty Name="Topic" Relationship="Self.FK__Topic__sectionFK__2B3F6F97" FromRole="Section" ToRole="Topic" />
         </EntityType>
         <EntityType Name="Topic">
           <Key>
@@ -212,34 +229,34 @@
           <Property Name="idTopic" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="sectionFK" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Post" Relationship="Self.FK__Post__topic__1FCDBCEB" FromRole="Topic" ToRole="Post" />
-          <NavigationProperty Name="Section" Relationship="Self.FK__Topic__sectionFK__22AA2996" FromRole="Topic" ToRole="Section" />
+          <NavigationProperty Name="Post" Relationship="Self.FK__Post__topic__300424B4" FromRole="Topic" ToRole="Post" />
+          <NavigationProperty Name="Section" Relationship="Self.FK__Topic__sectionFK__2B3F6F97" FromRole="Topic" ToRole="Section" />
         </EntityType>
-        <Association Name="FK__Account__groupFK__1DE57479">
-          <End Role="Group" Type="Self.Group" Multiplicity="1" />
-          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+        <Association Name="FK__AspNetUse__Group__30F848ED">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Group">
               <PropertyRef Name="idGroup" />
             </Principal>
-            <Dependent Role="Account">
-              <PropertyRef Name="groupFK" />
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="Group" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__author__1ED998B2">
-          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+        <Association Name="FK__Post__author__2F10007B">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="idAccount" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Post">
               <PropertyRef Name="author" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Section__readGro__20C1E124">
+        <Association Name="FK__Section__readGro__276EDEB3">
           <End Role="Group" Type="Self.Group" Multiplicity="1" />
           <End Role="Section" Type="Self.Section" Multiplicity="*" />
           <ReferentialConstraint>
@@ -251,7 +268,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Section__writeGr__21B6055D">
+        <Association Name="FK__Section__writeGr__286302EC">
           <End Role="Group" Type="Self.Group" Multiplicity="1" />
           <End Role="Section" Type="Self.Section" Multiplicity="*" />
           <ReferentialConstraint>
@@ -263,7 +280,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__topic__1FCDBCEB">
+        <Association Name="FK__Post__topic__300424B4">
           <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -275,7 +292,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Topic__sectionFK__22AA2996">
+        <Association Name="FK__Topic__sectionFK__2B3F6F97">
           <End Role="Section" Type="Self.Section" Multiplicity="1" />
           <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
           <ReferentialConstraint>
@@ -287,33 +304,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AiBforumEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Account" EntityType="Self.Account" />
+        <EntityContainer Name="AiBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="Group" EntityType="Self.Group" />
           <EntitySet Name="Post" EntityType="Self.Post" />
           <EntitySet Name="Section" EntityType="Self.Section" />
           <EntitySet Name="Topic" EntityType="Self.Topic" />
-          <AssociationSet Name="FK__Account__groupFK__1DE57479" Association="Self.FK__Account__groupFK__1DE57479">
+          <AssociationSet Name="FK__AspNetUse__Group__30F848ED" Association="Self.FK__AspNetUse__Group__30F848ED">
             <End Role="Group" EntitySet="Group" />
-            <End Role="Account" EntitySet="Account" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__author__1ED998B2" Association="Self.FK__Post__author__1ED998B2">
-            <End Role="Account" EntitySet="Account" />
+          <AssociationSet Name="FK__Post__author__2F10007B" Association="Self.FK__Post__author__2F10007B">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Section__readGro__20C1E124" Association="Self.FK__Section__readGro__20C1E124">
+          <AssociationSet Name="FK__Section__readGro__276EDEB3" Association="Self.FK__Section__readGro__276EDEB3">
             <End Role="Group" EntitySet="Group" />
             <End Role="Section" EntitySet="Section" />
           </AssociationSet>
-          <AssociationSet Name="FK__Section__writeGr__21B6055D" Association="Self.FK__Section__writeGr__21B6055D">
+          <AssociationSet Name="FK__Section__writeGr__286302EC" Association="Self.FK__Section__writeGr__286302EC">
             <End Role="Group" EntitySet="Group" />
             <End Role="Section" EntitySet="Section" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__topic__1FCDBCEB" Association="Self.FK__Post__topic__1FCDBCEB">
+          <AssociationSet Name="FK__Post__topic__300424B4" Association="Self.FK__Post__topic__300424B4">
             <End Role="Topic" EntitySet="Topic" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Topic__sectionFK__22AA2996" Association="Self.FK__Topic__sectionFK__22AA2996">
+          <AssociationSet Name="FK__Topic__sectionFK__2B3F6F97" Association="Self.FK__Topic__sectionFK__2B3F6F97">
             <End Role="Section" EntitySet="Section" />
             <End Role="Topic" EntitySet="Topic" />
           </AssociationSet>
@@ -323,40 +340,49 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AiBforumModelStoreContainer" CdmEntityContainer="AiBforumEntities">
-          <EntitySetMapping Name="Account">
-            <EntityTypeMapping TypeName="AiBforumModel.Account">
-              <MappingFragment StoreEntitySet="Account">
-                <ScalarProperty Name="idAccount" ColumnName="idAccount" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="mail" ColumnName="mail" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
-                <ScalarProperty Name="groupFK" ColumnName="groupFK" />
+        <EntityContainerMapping StorageEntityContainer="AiBModelStoreContainer" CdmEntityContainer="AiBEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="AiBModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
                 <ScalarProperty Name="creationDate" ColumnName="creationDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Group">
-            <EntityTypeMapping TypeName="AiBforumModel.Group">
+            <EntityTypeMapping TypeName="AiBModel.Group">
               <MappingFragment StoreEntitySet="Group">
                 <ScalarProperty Name="idGroup" ColumnName="idGroup" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Post">
-            <EntityTypeMapping TypeName="AiBforumModel.Post">
+            <EntityTypeMapping TypeName="AiBModel.Post">
               <MappingFragment StoreEntitySet="Post">
                 <ScalarProperty Name="idPost" ColumnName="idPost" />
                 <ScalarProperty Name="author" ColumnName="author" />
                 <ScalarProperty Name="topic" ColumnName="topic" />
-                <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Section">
-            <EntityTypeMapping TypeName="AiBforumModel.Section">
+            <EntityTypeMapping TypeName="AiBModel.Section">
               <MappingFragment StoreEntitySet="Section">
                 <ScalarProperty Name="idSection" ColumnName="idSection" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -366,7 +392,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Topic">
-            <EntityTypeMapping TypeName="AiBforumModel.Topic">
+            <EntityTypeMapping TypeName="AiBModel.Topic">
               <MappingFragment StoreEntitySet="Topic">
                 <ScalarProperty Name="idTopic" ColumnName="idTopic" />
                 <ScalarProperty Name="name" ColumnName="name" />

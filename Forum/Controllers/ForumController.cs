@@ -11,7 +11,7 @@ namespace Forum.Controllers
     public class ForumController : Controller
     {
         int PERPAGE = 20;
-        Models.AiBforumEntities db = new Models.AiBforumEntities();
+        Models.AiBEntities db = new Models.AiBEntities();
 
 
         // GET: Forum
@@ -25,6 +25,9 @@ namespace Forum.Controllers
         {
             int id;
             Int32.TryParse(idSection, out id);
+
+            if (!CheckReadPermision(db.Section.Find(id)))
+                return HttpNotFound();
 
             int page = GetParam("page");
 
@@ -49,20 +52,25 @@ namespace Forum.Controllers
             int id;
             Int32.TryParse(idTopic, out id);
 
+            if (!CheckReadPermision(db.Topic.Find(id).Section))
+                return HttpNotFound();
+
+
             int page = GetParam("page");
 
             if (page < 1)
                 page = 1;
 
+            IEnumerable<Models.Post> posts;
             try
             {
                 ViewBag.topicName = db.Topic.Find(id).name;
+                posts = db.Post.Where(p => p.Topic1.idTopic == id).OrderBy(p => p.date);
             }
             catch
             {
                 return HttpNotFound(); //Stronka 404
             }
-            IEnumerable<Models.Post> posts = db.Post.Where(p => p.Topic1.idTopic == id).OrderBy(p => p.date);
 
             return View(posts.ToPagedList(page, PERPAGE));
         }
@@ -71,17 +79,35 @@ namespace Forum.Controllers
             int id;
             Int32.TryParse(idTopic, out id);
 
-            IEnumerable<Models.Post> posts = db.Post.Where(p => p.Topic1.idTopic == id).OrderBy(p => p.date);
-            int page = posts.Count() / PERPAGE + 1;
+            if (!CheckReadPermision(db.Topic.Find(id).Section))
+                return HttpNotFound();
 
-            return View("Topic",posts.ToPagedList(page, PERPAGE));
+            IEnumerable<Models.Post> posts;
+            int page;
+            try
+            {
+                ViewBag.topicName = db.Topic.Find(id).name;
+                posts = db.Post.Where(p => p.Topic1.idTopic == id).OrderBy(p => p.date);
+                page = posts.Count() / PERPAGE + 1;
+            }
+            catch
+            {
+                return HttpNotFound(); //Stronka 404
+            }
+
+            return View("Topic", posts.ToPagedList(page, PERPAGE));
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult NewTopic(string idSection)
         {
             int id;
             Int32.TryParse(idSection, out id);
+
+            if (!CheckWritePermision(db.Section.Find(id)))
+                return HttpNotFound();
+
 
             Models.NewTopic topic = new Models.NewTopic();
             try
@@ -90,7 +116,8 @@ namespace Forum.Controllers
                 /* TUTAJ POPRAWIC
                  * 
                  */
-                topic.Author = 1;
+                //topic.Author = "AUTOR";
+                topic.Author = db.AspNetUsers.Where(a => a.UserName == User.Identity.Name.ToString()).First().Id;
             }
             catch
             {
@@ -100,8 +127,12 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult NewTopic(Models.NewTopic newTopic)
         {
+            if (!CheckWritePermision(db.Topic.Find(newTopic.Section).Section))
+                return HttpNotFound();
+
             Models.Post post = new Models.Post();
             Models.Topic topic = new Models.Topic();
             try
@@ -132,19 +163,23 @@ namespace Forum.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult NewPost(string idTopic)
         {
             int id;
             Int32.TryParse(idTopic, out id);
 
+            if (!CheckWritePermision(db.Topic.Find(id).Section))
+                return HttpNotFound();
+
             Models.Post post = new Models.Post();
             try
             {
                 post.topic = db.Topic.Find(id).idTopic;
-    /* TUTAJ POPRAWIC
-     * 
-     */
-                post.author = 1;
+                /* TUTAJ POPRAWIC
+                 * 
+                 */
+                post.author = db.AspNetUsers.Where(a => a.UserName == User.Identity.Name.ToString()).First().Id;
             }
             catch
             {
@@ -154,8 +189,12 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult NewPost(Models.Post post)
         {
+            if (!CheckWritePermision(post.Topic1.Section))
+                return HttpNotFound();
+
             try
             {
                 post.date = DateTime.Now;
@@ -176,6 +215,36 @@ namespace Forum.Controllers
             if (param == 0)
                 param = 1;
             return param;
+        }
+
+        private Boolean CheckReadPermision(Models.Section section)
+        {
+            try
+            {
+                if (db.AspNetUsers.Where(a => a.UserName == User.Identity.Name.ToString()).First().Group1.Power >= section.GroupRead.Power)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private Boolean CheckWritePermision(Models.Section section)
+        {
+            try
+            {
+                if (db.AspNetUsers.Where(a => a.UserName == User.Identity.Name.ToString()).First().Group1.Power >= section.GroupWrite.Power)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

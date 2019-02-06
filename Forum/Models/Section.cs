@@ -25,8 +25,8 @@ namespace Forum.Models
         public int readGroupFk { get; set; }
         public int writeGroupFk { get; set; }
     
-        public virtual Group Group { get; set; }
-        public virtual Group Group1 { get; set; }
+        public virtual Group GroupRead { get; set; }
+        public virtual Group GroupWrite { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Topic> Topic { get; set; }
     }

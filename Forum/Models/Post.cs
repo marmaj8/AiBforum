@@ -15,12 +15,12 @@ namespace Forum.Models
     public partial class Post
     {
         public int idPost { get; set; }
-        public int author { get; set; }
+        public string author { get; set; }
         public int topic { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
         public string text { get; set; }
+        public Nullable<System.DateTime> date { get; set; }
     
-        public virtual Account Account { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Topic Topic1 { get; set; }
     }
 }

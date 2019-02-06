@@ -13,11 +13,11 @@ namespace Forum.Models
 
         private string text;
 
-        private int author;
+        private string author;
 
         public int Section { get => section; set => section = value; }
         public string Name { get => name; set => name = value; }
         public string Text { get => text; set => text = value; }
-        public int Author { get => author; set => author = value; }
+        public string Author { get => author; set => author = value; }
     }
 }

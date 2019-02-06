@@ -13,10 +13,10 @@ namespace Forum.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AiBforumEntities : DbContext
+    public partial class AiBEntities : DbContext
     {
-        public AiBforumEntities()
-            : base("name=AiBforumEntities")
+        public AiBEntities()
+            : base("name=AiBEntities")
         {
         }
     
@@ -25,7 +25,7 @@ namespace Forum.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Post> Post { get; set; }
         public virtual DbSet<Section> Section { get; set; }

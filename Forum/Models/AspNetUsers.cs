@@ -12,22 +12,30 @@ namespace Forum.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Account
+    public partial class AspNetUsers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Account()
+        public AspNetUsers()
         {
             this.Post = new HashSet<Post>();
         }
     
-        public int idAccount { get; set; }
-        public string name { get; set; }
-        public string mail { get; set; }
-        public string pass { get; set; }
-        public int groupFK { get; set; }
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string PasswordHash { get; set; }
+        public string SecurityStamp { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool TwoFactorEnabled { get; set; }
+        public Nullable<System.DateTime> LockoutEndDateUtc { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public int AccessFailedCount { get; set; }
+        public string UserName { get; set; }
+        public Nullable<int> Group { get; set; }
         public Nullable<System.DateTime> creationDate { get; set; }
     
-        public virtual Group Group { get; set; }
+        public virtual Group Group1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Post { get; set; }
     }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e21b2053ce914fe5832f31a9f7178fcf" Name="Diagram1">
+        <EntityTypeShape EntityType="AiBModel.AspNetUsers" Width="1.5" PointX="0.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBModel.Group" Width="1.5" PointX="0.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBModel.Post" Width="1.5" PointX="3.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBModel.Section" Width="1.5" PointX="3.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AiBModel.Topic" Width="1.5" PointX="5.75" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="AiBModel.FK__AspNetUse__Group__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBModel.FK__Post__author__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBModel.FK__Section__readGro__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBModel.FK__Section__writeGr__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBModel.FK__Post__topic__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="AiBModel.FK__Topic__sectionFK__2B3F6F97" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
