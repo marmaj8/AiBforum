@@ -21,6 +21,7 @@ namespace Forum.Controllers
             return View(sections);
         }
 
+        [OutputCache(Duration = 30, VaryByParam = "idSection")]
         public ActionResult Section(string idSection)
         {
             int id;
@@ -47,6 +48,7 @@ namespace Forum.Controllers
             return View(topics.ToPagedList(page, PERPAGE));
         }
 
+        [OutputCache(Duration = 30, VaryByParam = "idTopic")]
         public ActionResult Topic(string idTopic)
         {
             int id;
@@ -74,6 +76,7 @@ namespace Forum.Controllers
 
             return View(posts.ToPagedList(page, PERPAGE));
         }
+
         public ActionResult TopicEnd(string idTopic)
         {
             int id;
