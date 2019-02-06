@@ -60,8 +60,8 @@ namespace Forum
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "1037348019877-hr149q3pvdd1r3a37l7457v7rirg8pjn.apps.googleusercontent.com",
-                ClientSecret = "JTFPrzRGJY55RcGpDl7j0Ren"
+                ClientId = "265366949648-robj175iv4ugnsjm40sk0vbip6qc27g4.apps.googleusercontent.com",
+                ClientSecret = "8ZPRBNm189CylBjpb9z2-fsm"
             });
         }
     }

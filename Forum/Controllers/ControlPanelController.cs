@@ -31,6 +31,7 @@ namespace Forum.Controllers
         }
 
         [HttpGet]
+        [ChildActionOnly]
         public ActionResult _AccountEditor(Models.AspNetUsers account)
         {
             if (!CheckPermision())
@@ -42,6 +43,7 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AccountEdit(Models.AspNetUsers account)
         {
             if (!CheckPermision())
@@ -80,6 +82,7 @@ namespace Forum.Controllers
             return View("Index");
         }
 
+        [ChildActionOnly]
         public ActionResult _AccountCreate()
         {
             if (!CheckPermision())
@@ -94,6 +97,7 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AccountCreate(Models.AspNetUsers account)
         {
             if (!CheckPermision())
@@ -127,6 +131,7 @@ namespace Forum.Controllers
             return param;
         }
 
+        [ChildActionOnly]
         public PartialViewResult _AccountList()
         {
             int page = GetParam("acp");
@@ -180,6 +185,7 @@ namespace Forum.Controllers
         // Section
 
         [HttpGet]
+        [ChildActionOnly]
         public ActionResult _SectionEditor(Models.Section section)
         {
             if (!CheckPermision())
@@ -191,6 +197,7 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SectionEdit(Models.Section section)
         {
             if (!CheckPermision())
@@ -219,6 +226,7 @@ namespace Forum.Controllers
             return View("Index");
         }
 
+        [ChildActionOnly]
         public ActionResult _SectionCreate()
         {
             if (!CheckPermision())
@@ -233,6 +241,7 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SectionCreate(Models.Section section)
         {
             if (!CheckPermision())
@@ -255,6 +264,7 @@ namespace Forum.Controllers
             return View("Index");
         }
 
+        [ChildActionOnly]
         public ActionResult _SectionList()
         {
             if (!CheckPermision())
@@ -298,6 +308,8 @@ namespace Forum.Controllers
             return PartialView(sections.ToPagedList(page, PERPAGE));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SectionDelete(Models.Section section)
         {
             if (!CheckPermision())

@@ -131,6 +131,7 @@ namespace Forum.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult NewTopic(Models.NewTopic newTopic)
         {
             if (!CheckWritePermision(db.Topic.Find(newTopic.Section).Section))
@@ -193,6 +194,7 @@ namespace Forum.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult NewPost(Models.Post post)
         {
             if (!CheckWritePermision(post.Topic1.Section))
