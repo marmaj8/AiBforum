@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,17 +9,20 @@ namespace Forum.Models
 {
     public class NewTopic
     {
-        private int section;
+        [DisplayName("Sekcja")]
+        public int Section { get; set; }
 
-        private string name;
+        [DisplayName("Nazwa tematu")]
+        [Required(ErrorMessage = "Proszę podać nazwę")]
+        [StringLength(100, MinimumLength = 1, ErrorMessage = "NAzwa musi się składać z 2-100 znaków")]
+        public string Name { get; set; }
 
-        private string text;
+        [DisplayName("Tekst")]
+        [Required(ErrorMessage = "Proszę podać tekst: ")]
+        [StringLength(2000, MinimumLength = 1, ErrorMessage = "Tekst musi posiadać mniej niż 2000 znaków!")]
+        public string Text { get; set; }
 
-        private string author;
-
-        public int Section { get => section; set => section = value; }
-        public string Name { get => name; set => name = value; }
-        public string Text { get => text; set => text = value; }
-        public string Author { get => author; set => author = value; }
+        [DisplayName("Autor")]
+        public string Author { get; set; }
     }
 }

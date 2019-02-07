@@ -137,30 +137,34 @@ namespace Forum.Controllers
             if (!CheckWritePermision(db.Topic.Find(newTopic.Section).Section))
                 return HttpNotFound();
 
-            Models.Post post = new Models.Post();
-            Models.Topic topic = new Models.Topic();
-            try
+            if (ModelState.IsValid)
             {
-                post.text = newTopic.Text;
-                post.author = newTopic.Author;
-                post.date = DateTime.Now;
-                post.Topic1 = topic;
+                Models.Post post = new Models.Post();
+                Models.Topic topic = new Models.Topic();
+                try
+                {
+                    post.text = newTopic.Text;
+                    post.author = newTopic.Author;
+                    post.date = DateTime.Now;
+                    post.Topic1 = topic;
 
 
-                topic.sectionFK = newTopic.Section;
-                topic.name = newTopic.Name;
-                topic.Post.Add(post);
+                    topic.sectionFK = newTopic.Section;
+                    topic.name = newTopic.Name;
+                    topic.Post.Add(post);
 
-                post.date = DateTime.Now;
-                
-                db.Topic.Add(topic);
-                db.Post.Add(post);
-                
-                db.SaveChanges();
-                return RedirectToAction("Topic", new { idtopic = topic.idTopic });
-            }
-            catch
-            {
+                    post.date = DateTime.Now;
+
+                    db.Topic.Add(topic);
+                    db.Post.Add(post);
+
+                    db.SaveChanges();
+                    return RedirectToAction("Topic", new { idtopic = topic.idTopic });
+                }
+                catch
+                {
+                }
+
             }
 
             return RedirectToAction("Index");
@@ -200,14 +204,19 @@ namespace Forum.Controllers
             if (!CheckWritePermision(post.Topic1.Section))
                 return HttpNotFound();
 
-            try
+            
+            if (ModelState.IsValid)
             {
-                post.date = DateTime.Now;
-                db.Post.Add(post);
-                db.SaveChanges();
-            }
-            catch
-            {
+                try
+                {
+                    post.date = DateTime.Now;
+                    db.Post.Add(post);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                }
+
             }
             
             return RedirectToAction("TopicEnd", new { idtopic = post.topic});

@@ -163,7 +163,7 @@ namespace Forum.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Potwierdź konto", "Potwierdź konto, klikając <a href=\"" + callbackUrl + "\">tutaj</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Forum");
                 }
                 AddErrors(result);
             }
@@ -367,7 +367,7 @@ namespace Forum.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Name, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -392,7 +392,7 @@ namespace Forum.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Forum");
         }
 
         //
@@ -449,7 +449,7 @@ namespace Forum.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Forum");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

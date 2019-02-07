@@ -13,21 +13,21 @@ namespace Forum.Models
     }
     public class PostExtension
     {
-        [DisplayName("Text")]
-        [Required(ErrorMessage = "Please enter Text")]
-        [StringLength(2000, MinimumLength = 1, ErrorMessage = "Text must be shorten than 2000 chars")]
+        [DisplayName("Tekst")]
+        [Required(ErrorMessage = "Proszę podać tekst: ")]
+        [StringLength(2000, MinimumLength = 1, ErrorMessage = "Tekst musi posiadać mniej niż 2000 znaków!")]
         public string text { get; set; }
 
-        [DisplayName("Id")]
+        [DisplayName("ID")]
         public int idPost { get; set; }
 
-        [DisplayName("Author")]
+        [DisplayName("Autor")]
         public int author { get; set; }
 
-        [DisplayName("Topic")]
+        [DisplayName("Temat")]
         public int topic { get; set; }
 
-        [DisplayName("Date")]
+        [DisplayName("Data")]
         public Nullable<System.DateTime> date { get; set; }
     }
 }

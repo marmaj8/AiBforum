@@ -7,7 +7,14 @@ namespace Forum.Models
     {
         [Required]
         [Display(Name = "Adres e-mail")]
+        [EmailAddress]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Nazwa użytkownika")]
+        [StringLength(100, ErrorMessage = "{0} musi zawierać co najmniej następującą liczbę znaków: {2}.", MinimumLength = 2)]
+        [RegularExpression("[a-zA-Z0-9]", ErrorMessage = "Tylko litery i cyfry")]
+        public string Name { get; set; }
     }
 
     public class ExternalLoginListViewModel

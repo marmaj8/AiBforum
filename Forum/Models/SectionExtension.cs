@@ -13,21 +13,21 @@ namespace Forum.Models
     }
     public class SectionExtension
     {
-        [DisplayName("Name")]
-        [Required(ErrorMessage = "Please enter Name")]
-        [StringLength(100, MinimumLength = 2, ErrorMessage = "Name must have 2-100 chars")]
-        [RegularExpression("[a-zA-Z0-9 ]{2,30}", ErrorMessage = "Only letters or numbers")]
+        [DisplayName("Nazwa")]
+        [Required(ErrorMessage = "Proszę podać nazwę")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Nazwa musi się mieścić w przedziale od 1 do 200 znaków")]
+        [RegularExpression("[a-zA-Z0-9 ]{2,30}", ErrorMessage = "Tylko litery lub liczby!")]
         public string name { get; set; }
 
-        [DisplayName("Group allowed to Read")]
-        [Required(ErrorMessage = "Please select Group")]
+        [DisplayName("Grupy - odczyt")]
+        [Required(ErrorMessage = "Proszę wybrać grupę")]
         public int readGroupFk { get; set; }
 
-        [DisplayName("Group allowed to Write")]
-        [Required(ErrorMessage = "Please select Group")]
+        [DisplayName("Grupy - zapis")]
+        [Required(ErrorMessage = "Proszę wybrać grupę")]
         public int writeGroupFk { get; set; }
 
-        [DisplayName("Id")]
+        [DisplayName("ID")]
         public int idSection { get; set; }
     }
 }

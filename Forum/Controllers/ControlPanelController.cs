@@ -11,6 +11,27 @@ namespace Forum.Controllers
     [Authorize]
     public class ControlPanelController : Controller
     {
+        /*
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            var controller = filterContext.RouteData.Values["controller"];
+            var action = filterContext.RouteData.Values["action"];
+            var id = filterContext.RouteData.Values["id"];
+            var route = controller + "/" + id + "/" + action;
+            var view = new ViewResult()
+            {
+                ViewName = "customError"
+            };
+            view.ViewBag.Route = route;
+            view.ViewBag.Message = filterContext.Exception.Message;
+
+            filterContext.Result = view;
+            filterContext.ExceptionHandled = true;
+            //base.OnException(filterContext);
+        }*/
+
+
+
         int PERPAGE = 5;
         Models.AiBEntities db = new Models.AiBEntities();
 
@@ -51,32 +72,36 @@ namespace Forum.Controllers
                 return HttpNotFound();
             }
 
-            TempData["OperationTarget"] = "Account";
-            try
+            if (ModelState.IsValid)
             {
-                Models.AspNetUsers aaccount = db.AspNetUsers.Where(a => a.Id == account.Id).First();
-
-                if (account.Group == db.Group.Where(g => g.name == "Deleted").First().idGroup)
+                TempData["OperationTarget"] = "Account";
+                try
                 {
-                    aaccount.UserName = "Deleted" + db.AspNetUsers.Where(a => a.Group == aaccount.Group).Count().ToString();
-                    aaccount.Email = aaccount.UserName;
-                    aaccount.PasswordHash = "";
-                    aaccount.Group = account.Group;
-                    TempData["OperationResult"] = "Deleted";
+                    Models.AspNetUsers aaccount = db.AspNetUsers.Where(a => a.Id == account.Id).First();
+
+                    if (account.Group == db.Group.OrderBy(g => g.Power).First().idGroup)
+                    {
+                        aaccount.UserName = "Skasowany" + db.AspNetUsers.Where(a => a.Group == aaccount.Group).Count().ToString();
+                        aaccount.Email = aaccount.UserName;
+                        aaccount.PasswordHash = "";
+                        aaccount.Group = account.Group;
+                        TempData["OperationResult"] = "Deleted";
+                    }
+                    else
+                    {
+                        aaccount.UserName = account.UserName;
+                        aaccount.Email = account.Email;
+                        aaccount.Group = account.Group;
+                        TempData["OperationResult"] = "Edited";
+                    }
+
+                    db.SaveChanges();
                 }
-                else
+                catch
                 {
-                    aaccount.UserName = account.UserName;
-                    aaccount.Email = account.Email;
-                    aaccount.Group = account.Group;
-                    TempData["OperationResult"] = "Edited";
+                    TempData["OperationResult"] = "Not Edited";
                 }
 
-                db.SaveChanges();
-            }
-            catch
-            {
-                TempData["OperationResult"] = "Not Edited";
             }
 
             return View("Index");
@@ -249,16 +274,19 @@ namespace Forum.Controllers
                 return HttpNotFound();
             }
 
-            TempData["OperationTarget"] = "Section";
-            try
+            if (ModelState.IsValid)
             {
-                db.Section.Add(section);
-                db.SaveChanges();
-                TempData["OperationResult"] = "Created";
-            }
-            catch
-            {
-                TempData["OperationResult"] = "Not Created";
+                TempData["OperationTarget"] = "Section";
+                try
+                {
+                    db.Section.Add(section);
+                    db.SaveChanges();
+                    TempData["OperationResult"] = "Created";
+                }
+                catch
+                {
+                    TempData["OperationResult"] = "Not Created";
+                }
             }
 
             return View("Index");
