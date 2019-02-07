@@ -13,16 +13,16 @@ namespace Forum.Models
     }
     public class TopicExtension
     {
-        [DisplayName("Topic Name")]
-        [Required(ErrorMessage = "Please enter Name")]
-        [StringLength(100, MinimumLength = 1, ErrorMessage = "Name must have 2-100 chars")]
+        [DisplayName("Nazwa tematu")]
+        [Required(ErrorMessage = "Proszę podać nazwę")]
+        [StringLength(100, MinimumLength = 1, ErrorMessage = "NAzwa musi się składać z 2-100 znaków")]
         public string name { get; set; }
 
-        [DisplayName("Section")]
-        [Required(ErrorMessage = "Please select Section")]
+        [DisplayName("Seekcja")]
+        [Required(ErrorMessage = "Proszę wybrać sekcję")]
         public int sectionFK { get; set; }
 
-        [DisplayName("Id")]
+        [DisplayName("ID")]
         public int idTopic { get; set; }
     }
 }

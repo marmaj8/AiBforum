@@ -1,14 +1,36 @@
 ﻿@model IEnumerable<Forum.Models.Section>
 
-    <div id="sections">
-        <table class="table">
-            @foreach (var section in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(section.name, "Section", new { idSection = section.idSection })
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
+<div id="sections">
+    <div id="product-promotion" class="content-section">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-8 col-sm-6">
+                    <div class="item-large">
+
+                        <div class="item-large-content">
+                            <div class="item-header">
+                                <h2 class="pull-left">Witaj na Forum AiB</h2>
+
+
+                                <div class="clearfix"></div>
+                            </div> <!-- /.item-header -->
+                        </div> <!-- /.item-large-content -->
+                    </div> <!-- /.item-large -->
+                </div> <!-- /.col-md-8 -->
+
+            </div> <!-- /.row -->
+        </div> <!-- /.container -->
+    </div> <!-- /#product-promotion -->
+
+    <table class="table">
+        @foreach (var section in Model)
+        {
+            <tr>
+                <td>
+                    <h4>@Html.ActionLink(section.name, "Section", new { idSection = section.idSection }) </h4>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

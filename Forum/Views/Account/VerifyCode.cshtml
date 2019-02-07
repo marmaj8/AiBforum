@@ -21,14 +21,23 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <div class="checkbox">
-                @Html.CheckBoxFor(m => m.RememberBrowser)
-                @Html.LabelFor(m => m.RememberBrowser)
+                <table style="width:100%" >
+                <tr>
+                    <td>@Html.LabelFor(m => m.RememberBrowser))</td>
+                    <td>  </td>
+                    <td>  @Html.CheckBoxFor(m => m.RememberBrowser))</td>
+                </tr>
+                </table>
             </div>
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-sm-1 col-md-1">
+            <div class="col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-0 "></div>
+        </div>
+        <div class="col-md-offset-2 col-md-1">
             <input type="submit" class="btn btn-default" value="Prześlij" />
+            <div class="col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-0 "></div>
         </div>
     </div>
 }

@@ -14,6 +14,16 @@ namespace Forum
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "NewPost",
+                url: "topic/{idTopic}/newpost",
+                defaults: new { controller = "Forum", action = "NewPost"}
+            );
+            routes.MapRoute(
+                name: "NewTopic",
+                url: "section/{idSection}/newtopic",
+                defaults: new { controller = "Forum", action = "NewTopic"}
+            );
+            routes.MapRoute(
                 name: "Section",
                 url: "section/{idSection}/{page}",
                 defaults: new { controller = "Forum", action = "Section", page = UrlParameter.Optional }

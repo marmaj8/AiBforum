@@ -13,7 +13,7 @@ namespace Forum.Models
         [Required]
         [Display(Name = "Nazwa użytkownika")]
         [StringLength(100, ErrorMessage = "{0} musi zawierać co najmniej następującą liczbę znaków: {2}.", MinimumLength = 2)]
-        [RegularExpression("[a-zA-Z0-9]", ErrorMessage = "Tylko litery i cyfry")]
+        [RegularExpression("[a-zA-Z0-9]{2,}", ErrorMessage = "Tylko litery i cyfry")]
         public string Name { get; set; }
     }
 
@@ -56,9 +56,10 @@ namespace Forum.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Adres e-mail")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Login")]
+        [StringLength(100, ErrorMessage = "{0} musi zawierać co najmniej następującą liczbę znaków: {2}.", MinimumLength = 2)]
+        [RegularExpression("[a-zA-Z0-9]{2,}", ErrorMessage = "Tylko litery i cyfry")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

@@ -1,27 +1,33 @@
 ﻿@model PagedList.IPagedList<Forum.Models.Post>
 @using PagedList.Mvc;
 
-<h1>@ViewBag.topicName</h1>
-<table class="table">
-    @foreach (var post in Model)
-    {
-        <tr>
-            <td>
-                <div>@post.AspNetUsers.UserName @post.date</div>
-            </td>
-            <td>
-                @post.text
-            </td>
-        </tr>
-    }
+<body>
+    <h1>@ViewBag.topicName</h1>
+    <table class="table">
+        @foreach (var post in Model)
+        {
+            <tr>
+                <td>
+                    <div>@post.AspNetUsers.UserName @post.date</div>
+                </td>
+                <td>
+                    @post.text
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <div>
+        @if (ViewBag.AllowNew == "Allow")
+        {
+            @Html.ActionLink("Odpowiedz", "NewPost", new { idTopic = Request.QueryString.Get("idTopic") })
+        }
+    </div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Section",
+        new { idTopic = Request.QueryString.Get("idTopic"), page  }))
 
-</table>
-<br />
-
-<div>
-    @Html.ActionLink("Odpowiedz", "NewPost", new { idTopic = Request.QueryString.Get("idTopic") })
-</div>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Section",
-    new { idTopic = Request.QueryString.Get("idTopic"), page  }))
+    <div>
+        @Html.ActionLink("Wróć do działu", "Section", new { idSection = Model.First().Topic1.sectionFK })
+    </div>
+</body>

@@ -15,10 +15,10 @@
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -29,25 +29,40 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="col-md-offset-2 col-md-2">
                         <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+                            <table style="width:100%" >
+                                <tr>
+                                    <td>@Html.LabelFor(m => m.RememberMe)</td>
+                                    <td>  </td>
+                                    <td>  @Html.CheckBoxFor(m => m.RememberMe)</td>
+                                </tr>
+                            </table>
+                            
+                         
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="col-sm-1 col-md-1">
+                        <div class="col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-0 "></div>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
                         <input type="submit" value="Zaloguj" class="btn btn-default" />
+                        <div class="col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-0 "></div>
                     </div>
                 </div>
+                <div class="col-sm-0 col-md-0">
+                    <div class="col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-0 "></div>
+                </div>
+
                 <p>
                     @Html.ActionLink("Zarejestruj się jako nowy użytkownik", "Register")
                 </p>
                 @* Włącz to ustawienie po włączeniu potwierdzenia konta dla funkcji resetowania hasła
-                    <p>
-                        @Html.ActionLink("Nie pamiętasz hasła?", "ForgotPassword")
-                    </p>*@
+            <p>
+                @Html.ActionLink("Nie pamiętasz hasła?", "ForgotPassword")
+            </p>*@
             }
         </section>
     </div>

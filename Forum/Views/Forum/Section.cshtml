@@ -1,55 +1,50 @@
 ﻿@model PagedList.IPagedList<Forum.Models.Topic>
 @using PagedList.Mvc;
 
-<h1>@ViewBag.sectionName</h1>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Post.First().AspNetUsers.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Post.First().date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Post.Last().AspNetUsers.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Post.Last().date)
-        </th>
-    </tr>
 
-    @foreach (var topic in Model)
-    {
-    <tr>
-        <td>
-            @Html.ActionLink(topic.name, "Topic", new { idTopic = topic.idTopic })
-        </td>
-        <td>
-            @topic.Post.First().AspNetUsers.UserName
-        </td>
-        <td>
-            @topic.Post.First().date.ToString()
+<body>
+    <h1>@ViewBag.sectionName</h1>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().name)
+            </th>
+            <th>
+                Założony
+            </th>
+            <th>
+                Ostatni Post
+            </th>
+        </tr>
+        @foreach (var topic in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(topic.name, "Topic", new { idTopic = topic.idTopic })
+                </td>
+                <td>
+                    @(topic.Post.First().AspNetUsers.UserName + " " + topic.Post.First().date.ToString())
+                </td>
+                <td>
+                    @(topic.Post.Last().AspNetUsers.UserName + " ")
+                    @Html.ActionLink(topic.Post.Last().date.ToString(), "TopicEnd", new { idTopic = topic.idTopic })
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <div>
+        @if(ViewBag.AllowNew == "Allow")
+        {
+            @Html.ActionLink("Nowy Temat", "NewTopic", new { idSection = Request.QueryString.Get("idSection") })
+        }
+    </div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Section",
+        new { idSection = Request.QueryString.Get("idSection"), page  }))
 
-        </td>
-        <td>
-            @topic.Post.Last().AspNetUsers.UserName
-        </td>
-        <td>
-            @Html.ActionLink(topic.Post.Last().date.ToString(), "TopicEnd", new { idTopic = topic.idTopic })
-        </td>
-    </tr>
-    }
 
-</table>
-<br />
-<div>
-    @Html.ActionLink("Nowy Temat", "NewTopic", new { idSection = Request.QueryString.Get("idSection") })
-
-</div>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Section",
-    new { idSection = Request.QueryString.Get("idSection"), page  }))
+    <div>
+        @Html.ActionLink("Wróć do listy sekcji", "Index")
+    </div>
+</body>

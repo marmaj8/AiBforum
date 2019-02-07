@@ -213,6 +213,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AiBforumEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetUsersExtension.cs" />
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>AiBforumEntities.tt</DependentUpon>
     </Compile>
@@ -239,11 +240,16 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\normalize.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\templatemo_misc.css" />
+    <Content Include="Content\templatemo_style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -278,6 +284,27 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\fonts\fontawesome-webfont.svg" />
+    <Content Include="Views\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Views\fonts\linecons.svg" />
+    <Content Include="Views\fonts\revicons.svg" />
+    <Content Include="Views\images\active-state.png" />
+    <Content Include="Views\images\AIB_LOGO.png" />
+    <Content Include="Views\images\bx_loader.gif" />
+    <Content Include="Views\images\service-first.png" />
+    <Content Include="Views\images\service-fourth.png" />
+    <Content Include="Views\images\service-second.png" />
+    <Content Include="Views\images\service-third.png" />
+    <Content Include="Views\images\small_logo_1.png" />
+    <Content Include="Views\images\small_logo_2.png" />
+    <Content Include="Views\images\small_logo_3.png" />
+    <Content Include="Views\images\t-left.png" />
+    <Content Include="Views\images\t-right.png" />
+    <Content Include="Views\images\templatemo_logo.png" />
+    <Content Include="Views\js\bootstrap.js" />
+    <Content Include="Views\js\jquery.easing-1.3.js" />
+    <Content Include="Views\js\main.js" />
+    <Content Include="Views\js\plugins.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -287,12 +314,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -304,26 +325,43 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\ControlPanel\Index.cshtml" />
     <Content Include="Views\ControlPanel\_AccountCreate.cshtml" />
     <Content Include="Views\ControlPanel\_AccountEditor.cshtml" />
     <Content Include="Views\ControlPanel\_AccountList.cshtml" />
     <Content Include="Views\ControlPanel\_SectionCreate.cshtml" />
     <Content Include="Views\ControlPanel\_SectionEditor.cshtml" />
     <Content Include="Views\ControlPanel\_SectionList.cshtml" />
-    <Content Include="Views\ControlPanel\Index.cshtml" />
+    <Content Include="Views\fonts\fontawesome-webfont.eot" />
+    <Content Include="Views\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Views\fonts\fontawesome-webfont.woff" />
+    <Content Include="Views\fonts\FontAwesome.otf" />
+    <Content Include="Views\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Views\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Views\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Views\fonts\linecons.eot" />
+    <Content Include="Views\fonts\linecons.ttf" />
+    <Content Include="Views\fonts\linecons.woff" />
+    <Content Include="Views\fonts\revicons.eot" />
+    <Content Include="Views\fonts\revicons.ttf" />
+    <Content Include="Views\fonts\revicons.woff" />
     <Content Include="Views\Forum\Index.cshtml" />
+    <Content Include="Views\Forum\NewPost.cshtml" />
+    <Content Include="Views\Forum\NewTopic.cshtml" />
     <Content Include="Views\Forum\Section.cshtml" />
     <Content Include="Views\Forum\Topic.cshtml" />
-    <Content Include="Views\Forum\NewTopic.cshtml" />
-    <Content Include="Views\Forum\NewPost.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\ControlPanel\MenuPosition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

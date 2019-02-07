@@ -45,7 +45,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             return View();
@@ -57,7 +57,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index","Forum");
             }
 
             return PartialView("_AccountEditor", account);
@@ -69,7 +69,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             IEnumerable<Models.Group> groups = db.Group;
@@ -127,7 +127,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             TempData["OperationTarget"] = "Account";
@@ -215,7 +215,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             return PartialView("_SectionEditor", section);
@@ -227,7 +227,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             TempData["OperationTarget"] = "Section";
@@ -256,7 +256,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             IEnumerable<Models.Group> groups = db.Group;
@@ -271,7 +271,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             if (ModelState.IsValid)
@@ -297,7 +297,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             int page = GetParam("sep");
@@ -342,7 +342,7 @@ namespace Forum.Controllers
         {
             if (!CheckPermision())
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Forum");
             }
 
             TempData["OperationTarget"] = "Section";
@@ -350,7 +350,7 @@ namespace Forum.Controllers
             {
                 foreach (Models.Topic topic in db.Topic.Where(t => t.sectionFK == section.idSection))
                 {
-                    topic.sectionFK = 1;
+                    topic.sectionFK = db.Section.OrderBy(s => s.idSection).First().idSection;
                 }
                 Models.Section delete = db.Section.Where(s => s.idSection == section.idSection).First();
                 db.Section.Remove(delete);
@@ -364,6 +364,20 @@ namespace Forum.Controllers
                 TempData["OperationResult"] = "Not Deleted";
             }
             return View("Index");
+        }
+        
+        public PartialViewResult MenuPosition()
+        {
+            if(CheckPermision())
+            {
+                TempData["ControlPanelAllowed"] = "Allow";
+            }
+            else
+            {
+                TempData["ControlPanelAllowed"] = "Deny";
+            }
+
+            return PartialView();
         }
 
         private Boolean CheckPermision()

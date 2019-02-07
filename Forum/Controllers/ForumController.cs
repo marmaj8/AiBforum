@@ -28,7 +28,12 @@ namespace Forum.Controllers
             Int32.TryParse(idSection, out id);
 
             if (!CheckReadPermision(db.Section.Find(id)))
-                return HttpNotFound();
+                return RedirectToAction("Index");
+            if (CheckWritePermision(db.Section.Find(id)))
+                ViewBag.AllowNew = "Allow";
+            else
+                ViewBag.AllowNew = "Denny";
+
 
             int page = GetParam("page");
 
@@ -42,7 +47,7 @@ namespace Forum.Controllers
             }
             catch
             {
-                return HttpNotFound(); //Stronka 404
+                return RedirectToAction("Index");
             }
             IEnumerable<Models.Topic> topics = db.Topic.Where(t => t.Section.idSection == id).OrderByDescending(t => t.Post.Max(p => p.date));
             return View(topics.ToPagedList(page, PERPAGE));
@@ -55,7 +60,11 @@ namespace Forum.Controllers
             Int32.TryParse(idTopic, out id);
 
             if (!CheckReadPermision(db.Topic.Find(id).Section))
-                return HttpNotFound();
+                return RedirectToAction("Index");
+            if (CheckWritePermision(db.Topic.Find(id).Section))
+                ViewBag.AllowNew = "Allow";
+            else
+                ViewBag.AllowNew = "Denny";
 
 
             int page = GetParam("page");
@@ -71,7 +80,7 @@ namespace Forum.Controllers
             }
             catch
             {
-                return HttpNotFound(); //Stronka 404
+                return RedirectToAction("Index");
             }
 
             return View(posts.ToPagedList(page, PERPAGE));
@@ -83,7 +92,11 @@ namespace Forum.Controllers
             Int32.TryParse(idTopic, out id);
 
             if (!CheckReadPermision(db.Topic.Find(id).Section))
-                return HttpNotFound();
+                return RedirectToAction("Index");
+            if (CheckWritePermision(db.Topic.Find(id).Section))
+                ViewBag.AllowNew = "Allow";
+            else
+                ViewBag.AllowNew = "Denny";
 
             IEnumerable<Models.Post> posts;
             int page;
@@ -95,7 +108,7 @@ namespace Forum.Controllers
             }
             catch
             {
-                return HttpNotFound(); //Stronka 404
+                return RedirectToAction("Index");
             }
 
             return View("Topic", posts.ToPagedList(page, PERPAGE));
@@ -109,7 +122,7 @@ namespace Forum.Controllers
             Int32.TryParse(idSection, out id);
 
             if (!CheckWritePermision(db.Section.Find(id)))
-                return HttpNotFound();
+                return RedirectToAction("Index");
 
 
             Models.NewTopic topic = new Models.NewTopic();
@@ -124,7 +137,7 @@ namespace Forum.Controllers
             }
             catch
             {
-                return HttpNotFound(); //Stronka 404
+                return RedirectToAction("Index");
             }
             return View(topic);
         }
@@ -134,8 +147,8 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult NewTopic(Models.NewTopic newTopic)
         {
-            if (!CheckWritePermision(db.Topic.Find(newTopic.Section).Section))
-                return HttpNotFound();
+            if (!CheckWritePermision(db.Section.Find(newTopic.Section)))
+                return RedirectToAction("Index");
 
             if (ModelState.IsValid)
             {
@@ -178,7 +191,7 @@ namespace Forum.Controllers
             Int32.TryParse(idTopic, out id);
 
             if (!CheckWritePermision(db.Topic.Find(id).Section))
-                return HttpNotFound();
+                return RedirectToAction("Index");
 
             Models.Post post = new Models.Post();
             try
@@ -191,7 +204,7 @@ namespace Forum.Controllers
             }
             catch
             {
-                return HttpNotFound(); //Stronka 404
+                return RedirectToAction("Index");
             }
             return View(post);
         }
@@ -201,10 +214,10 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult NewPost(Models.Post post)
         {
-            if (!CheckWritePermision(post.Topic1.Section))
-                return HttpNotFound();
+            if (!CheckWritePermision(db.Section.Find(db.Topic.Find(post.topic).sectionFK)))
+                return RedirectToAction("Index");
 
-            
+
             if (ModelState.IsValid)
             {
                 try
